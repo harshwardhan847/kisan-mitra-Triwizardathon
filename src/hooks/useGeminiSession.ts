@@ -25,7 +25,7 @@ import {
   diagnoseCropDiseaseFunctionDeclaration,
   type CropDiseaseDiagnosis,
 } from "@/tools/diagnoseCropDisease";
-import type { ToolResponse } from "@/components/DashboardView";
+import type { ToolResponse } from "@/types/tool_types";
 import type { PreviousChats } from "@/types/tool_types";
 import { handleGeminiToolCalls } from "@/utils/handleGeminiToolCalls";
 
@@ -172,6 +172,8 @@ no matter what the previous language of conversation was now you have to talk in
                 currentLanguage,
               });
               if (setLoading) setLoading({ active: false });
+              console.log(functionResponses);
+
               await sessionRef.current?.sendToolResponse({
                 functionResponses,
                 thoughtSignature,

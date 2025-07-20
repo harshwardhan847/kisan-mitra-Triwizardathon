@@ -9,7 +9,16 @@ import { useAudioRecording } from "@/hooks/useAudioRecording";
 import { diagnoseCropDisease } from "@/tools/diagnoseCropDisease";
 import CameraDiagnosisModal from "@/components/CameraDiagnosisModal";
 import type { MarketDataResult } from "@/tools/getMarketData";
-import DashboardView, { type ToolResponse } from "@/components/DashboardView";
+import type { ToolResponse } from "@/types/tool_types";
+import DashboardView from "@/components/DashboardView";
+import type { PreviousChats } from "@/types/tool_types";
+import BlurText from "@/components/BlurText";
+import { AnimatePresence, motion } from "framer-motion";
+
+import { MagicalButton } from "@/components/magical-button";
+import { MagicalOrb } from "@/components/magical-orb";
+import { MagicalParticles } from "@/components/magical-particles";
+import { UserButton } from "@clerk/nextjs";
 import {
   Mic,
   MicOff,
@@ -20,14 +29,6 @@ import {
   MessageCircle,
   ChevronsDown,
 } from "lucide-react";
-import type { PreviousChats } from "@/types/tool_types";
-import BlurText from "@/components/BlurText";
-import { AnimatePresence, motion } from "framer-motion";
-
-import { MagicalButton } from "@/components/magical-button";
-import { MagicalOrb } from "@/components/magical-orb";
-import { MagicalParticles } from "@/components/magical-particles";
-import { UserButton } from "@clerk/nextjs";
 
 interface SearchResult {
   uri: string;
@@ -60,6 +61,7 @@ const LiveAudio: React.FC = () => {
   const updateError = useCallback((msg: string) => setError(msg), []);
 
   const handleMarketDataReceived = useCallback((data: ToolResponse) => {
+    console.log(data);
     if (
       data &&
       typeof data === "object" &&
@@ -493,7 +495,7 @@ const LiveAudio: React.FC = () => {
                 </div>
               </motion.div>
             )}
-            <DashboardView results={[...(dashboardData || [])].reverse()} />
+            <DashboardView results={dashboardData} />
           </motion.div>
         ) : (
           <div className="w-full h-full flex items-center justify-center flex-1 min-h-full">

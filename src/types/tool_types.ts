@@ -11,3 +11,10 @@ export type PreviousChats = (
   | Record<string, MarketDataResult>
   | { error: string }
 )[];
+
+export type ToolResponse =
+  | import("@/tools/getMarketData").MarketDataResult
+  | Record<string, import("@/tools/getMarketData").MarketDataResult>
+  | import("@/tools/getGovernmentSchemes").GovernmentSchemesResult
+  | import("@/tools/diagnoseCropDisease").CropDiseaseDiagnosis
+  | { error: string };

@@ -26,7 +26,7 @@ import {
   ChevronDown,
 } from "lucide-react";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useCallback, useEffect } from "react";
 
 export default function Home() {
   const [isScrolled, setIsScrolled] = useState(false);

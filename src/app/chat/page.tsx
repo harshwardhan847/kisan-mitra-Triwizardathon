@@ -653,8 +653,10 @@ const LiveAudio: React.FC = () => {
       {/* Camera Modal */}
       <CameraDiagnosisModal
         open={cameraOpen}
-        onClose={() => setCameraOpen(false)}
-        onCapture={handleImageCapture}
+        onClose={() => setCameraOpen(false)} // Only closes modal, does NOT call handleImageCapture
+        onCapture={(image) => {
+          if (image) handleImageCapture(image); // Only call if image is present
+        }}
       />
     </div>
   );

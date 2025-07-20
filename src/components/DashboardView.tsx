@@ -39,6 +39,7 @@ import {
   ScatterChart,
   Scatter,
   ZAxis,
+  Brush,
 } from "recharts";
 
 // StatCard (reuse from before)
@@ -118,6 +119,13 @@ const TAB_ICONS: Record<string, React.ReactNode> = {
   [TAB_SCHEMES]: <FileText className="w-5 h-5 text-green-400" />,
   [TAB_COMPARISON]: <TrendingUp className="w-5 h-5 text-purple-400" />,
 };
+
+// Downsample utility for large datasets
+function downsample(data: any[], maxPoints = 500) {
+  if (!data || data.length <= maxPoints) return data;
+  const step = Math.ceil(data.length / maxPoints);
+  return data.filter((_, i) => i % step === 0);
+}
 
 // Main DashboardView
 const DashboardView = ({ results }: { results: any }) => {
@@ -350,7 +358,7 @@ const DashboardView = ({ results }: { results: any }) => {
                             {chartType === "line" && (
                               <ResponsiveContainer width="100%" height={300}>
                                 <LineChart
-                                  data={chart.data}
+                                  data={downsample(chart.data, 500)}
                                   margin={{
                                     top: 20,
                                     right: 30,
@@ -358,54 +366,78 @@ const DashboardView = ({ results }: { results: any }) => {
                                     bottom: 0,
                                   }}
                                 >
+                                  {/* Magical gradient for line */}
+                                  <defs>
+                                    <linearGradient
+                                      id="magicalLine"
+                                      x1="0"
+                                      y1="0"
+                                      x2="0"
+                                      y2="1"
+                                    >
+                                      <stop
+                                        offset="0%"
+                                        stopColor="#fbbf24"
+                                        stopOpacity={0.8}
+                                      />
+                                      <stop
+                                        offset="100%"
+                                        stopColor="#a78bfa"
+                                        stopOpacity={0.2}
+                                      />
+                                    </linearGradient>
+                                  </defs>
                                   <CartesianGrid
+                                    stroke="#a78bfa33"
                                     strokeDasharray="3 3"
-                                    stroke="#6b7280"
-                                    opacity={0.3}
                                   />
                                   <XAxis
                                     dataKey="date"
-                                    stroke="#d1d5db"
+                                    stroke="#fbbf24"
                                     fontSize={12}
                                   />
-                                  <YAxis stroke="#d1d5db" fontSize={12} />
-                                  <Tooltip />
-                                  <Legend />
+                                  <YAxis stroke="#fbbf24" fontSize={12} />
+                                  <Tooltip
+                                    contentStyle={{
+                                      background: "#1e193a",
+                                      border: "1.5px solid #a78bfa",
+                                      borderRadius: "0.75rem",
+                                      color: "#fbbf24",
+                                    }}
+                                  />
+                                  <Legend
+                                    verticalAlign="top"
+                                    iconType="circle"
+                                  />
                                   <Line
                                     type="monotone"
                                     dataKey="modal"
-                                    stroke="#fbbf24"
+                                    stroke="url(#magicalLine)"
                                     strokeWidth={3}
-                                    name="Modal Price"
-                                    dot={{
-                                      fill: "#fbbf24",
-                                      strokeWidth: 2,
-                                      r: 4,
-                                    }}
+                                    dot={false}
+                                    isAnimationActive={true}
                                   />
                                   <Line
                                     type="monotone"
                                     dataKey="min"
                                     stroke="#10b981"
                                     strokeWidth={2}
-                                    name="Min Price"
-                                    dot={{
-                                      fill: "#10b981",
-                                      strokeWidth: 2,
-                                      r: 3,
-                                    }}
+                                    dot={false}
+                                    isAnimationActive={true}
                                   />
                                   <Line
                                     type="monotone"
                                     dataKey="max"
                                     stroke="#f59e0b"
                                     strokeWidth={2}
-                                    name="Max Price"
-                                    dot={{
-                                      fill: "#f59e0b",
-                                      strokeWidth: 2,
-                                      r: 3,
-                                    }}
+                                    dot={false}
+                                    isAnimationActive={true}
+                                  />
+                                  <Brush
+                                    dataKey="date"
+                                    height={24}
+                                    stroke="#fbbf24"
+                                    travellerWidth={12}
                                   />
                                 </LineChart>
                               </ResponsiveContainer>
@@ -413,7 +445,7 @@ const DashboardView = ({ results }: { results: any }) => {
                             {chartType === "bar" && (
                               <ResponsiveContainer width="100%" height={300}>
                                 <BarChart
-                                  data={chart.data}
+                                  data={downsample(chart.data, 500)}
                                   margin={{
                                     top: 20,
                                     right: 30,
@@ -421,36 +453,74 @@ const DashboardView = ({ results }: { results: any }) => {
                                     bottom: 0,
                                   }}
                                 >
+                                  <defs>
+                                    <linearGradient
+                                      id="magicalBar"
+                                      x1="0"
+                                      y1="0"
+                                      x2="0"
+                                      y2="1"
+                                    >
+                                      <stop
+                                        offset="0%"
+                                        stopColor="#fbbf24"
+                                        stopOpacity={0.8}
+                                      />
+                                      <stop
+                                        offset="100%"
+                                        stopColor="#a78bfa"
+                                        stopOpacity={0.2}
+                                      />
+                                    </linearGradient>
+                                  </defs>
                                   <CartesianGrid
+                                    stroke="#a78bfa33"
                                     strokeDasharray="3 3"
-                                    stroke="#6b7280"
-                                    opacity={0.3}
                                   />
                                   <XAxis
                                     dataKey="market"
-                                    stroke="#d1d5db"
+                                    stroke="#fbbf24"
                                     fontSize={12}
                                   />
-                                  <YAxis stroke="#d1d5db" fontSize={12} />
-                                  <Tooltip />
-                                  <Legend />
+                                  <YAxis stroke="#fbbf24" fontSize={12} />
+                                  <Tooltip
+                                    contentStyle={{
+                                      background: "#1e193a",
+                                      border: "1.5px solid #a78bfa",
+                                      borderRadius: "0.75rem",
+                                      color: "#fbbf24",
+                                    }}
+                                  />
+                                  <Legend
+                                    verticalAlign="top"
+                                    iconType="circle"
+                                  />
                                   <Bar
                                     dataKey="modal"
-                                    fill="#8b5cf6"
+                                    fill="url(#magicalBar)"
                                     name="Modal Price"
                                     radius={[4, 4, 0, 0]}
+                                    isAnimationActive={true}
                                   />
                                   <Bar
                                     dataKey="min"
                                     fill="#10b981"
                                     name="Min Price"
                                     radius={[4, 4, 0, 0]}
+                                    isAnimationActive={true}
                                   />
                                   <Bar
                                     dataKey="max"
                                     fill="#f59e0b"
                                     name="Max Price"
                                     radius={[4, 4, 0, 0]}
+                                    isAnimationActive={true}
+                                  />
+                                  <Brush
+                                    dataKey="market"
+                                    height={24}
+                                    stroke="#fbbf24"
+                                    travellerWidth={12}
                                   />
                                 </BarChart>
                               </ResponsiveContainer>
@@ -458,7 +528,7 @@ const DashboardView = ({ results }: { results: any }) => {
                             {chartType === "grouped-bar" && (
                               <ResponsiveContainer width="100%" height={300}>
                                 <BarChart
-                                  data={chart.data}
+                                  data={downsample(chart.data, 500)}
                                   margin={{
                                     top: 20,
                                     right: 30,
@@ -467,18 +537,27 @@ const DashboardView = ({ results }: { results: any }) => {
                                   }}
                                 >
                                   <CartesianGrid
+                                    stroke="#a78bfa33"
                                     strokeDasharray="3 3"
-                                    stroke="#6b7280"
-                                    opacity={0.3}
                                   />
                                   <XAxis
                                     dataKey="date"
-                                    stroke="#d1d5db"
+                                    stroke="#fbbf24"
                                     fontSize={12}
                                   />
-                                  <YAxis stroke="#d1d5db" fontSize={12} />
-                                  <Tooltip />
-                                  <Legend />
+                                  <YAxis stroke="#fbbf24" fontSize={12} />
+                                  <Tooltip
+                                    contentStyle={{
+                                      background: "#1e193a",
+                                      border: "1.5px solid #a78bfa",
+                                      borderRadius: "0.75rem",
+                                      color: "#fbbf24",
+                                    }}
+                                  />
+                                  <Legend
+                                    verticalAlign="top"
+                                    iconType="circle"
+                                  />
                                   {Object.keys(chart.data[0] || {})
                                     .filter((k) => k !== "date")
                                     .map((key, idx) => (
@@ -495,15 +574,22 @@ const DashboardView = ({ results }: { results: any }) => {
                                         }
                                         name={key}
                                         radius={[4, 4, 0, 0]}
+                                        isAnimationActive={true}
                                       />
                                     ))}
+                                  <Brush
+                                    dataKey="date"
+                                    height={24}
+                                    stroke="#fbbf24"
+                                    travellerWidth={12}
+                                  />
                                 </BarChart>
                               </ResponsiveContainer>
                             )}
                             {chartType === "area" && (
                               <ResponsiveContainer width="100%" height={300}>
                                 <AreaChart
-                                  data={chart.data}
+                                  data={downsample(chart.data, 500)}
                                   margin={{
                                     top: 20,
                                     right: 30,
@@ -511,26 +597,56 @@ const DashboardView = ({ results }: { results: any }) => {
                                     bottom: 0,
                                   }}
                                 >
+                                  <defs>
+                                    <linearGradient
+                                      id="magicalArea"
+                                      x1="0"
+                                      y1="0"
+                                      x2="0"
+                                      y2="1"
+                                    >
+                                      <stop
+                                        offset="0%"
+                                        stopColor="#fbbf24"
+                                        stopOpacity={0.8}
+                                      />
+                                      <stop
+                                        offset="100%"
+                                        stopColor="#a78bfa"
+                                        stopOpacity={0.2}
+                                      />
+                                    </linearGradient>
+                                  </defs>
                                   <CartesianGrid
+                                    stroke="#a78bfa33"
                                     strokeDasharray="3 3"
-                                    stroke="#6b7280"
-                                    opacity={0.3}
                                   />
                                   <XAxis
                                     dataKey="date"
-                                    stroke="#d1d5db"
+                                    stroke="#fbbf24"
                                     fontSize={12}
                                   />
-                                  <YAxis stroke="#d1d5db" fontSize={12} />
-                                  <Tooltip />
-                                  <Legend />
+                                  <YAxis stroke="#fbbf24" fontSize={12} />
+                                  <Tooltip
+                                    contentStyle={{
+                                      background: "#1e193a",
+                                      border: "1.5px solid #a78bfa",
+                                      borderRadius: "0.75rem",
+                                      color: "#fbbf24",
+                                    }}
+                                  />
+                                  <Legend
+                                    verticalAlign="top"
+                                    iconType="circle"
+                                  />
                                   <Area
                                     type="monotone"
                                     dataKey="modal"
                                     stroke="#fbbf24"
-                                    fill="#fbbf24"
+                                    fill="url(#magicalArea)"
                                     fillOpacity={0.3}
                                     name="Modal Price"
+                                    isAnimationActive={true}
                                   />
                                   <Area
                                     type="monotone"
@@ -539,6 +655,7 @@ const DashboardView = ({ results }: { results: any }) => {
                                     fill="#10b981"
                                     fillOpacity={0.2}
                                     name="Min Price"
+                                    isAnimationActive={true}
                                   />
                                   <Area
                                     type="monotone"
@@ -547,6 +664,13 @@ const DashboardView = ({ results }: { results: any }) => {
                                     fill="#f59e0b"
                                     fillOpacity={0.2}
                                     name="Max Price"
+                                    isAnimationActive={true}
+                                  />
+                                  <Brush
+                                    dataKey="date"
+                                    height={24}
+                                    stroke="#fbbf24"
+                                    travellerWidth={12}
                                   />
                                 </AreaChart>
                               </ResponsiveContainer>
@@ -557,7 +681,7 @@ const DashboardView = ({ results }: { results: any }) => {
                                   <Tooltip />
                                   <Legend />
                                   <Pie
-                                    data={chart.data}
+                                    data={downsample(chart.data, 500)}
                                     dataKey="value"
                                     nameKey="name"
                                     cx="50%"
@@ -615,7 +739,7 @@ const DashboardView = ({ results }: { results: any }) => {
                                   <Legend />
                                   <Scatter
                                     name="Data"
-                                    data={chart.data}
+                                    data={downsample(chart.data, 500)}
                                     fill="#8b5cf6"
                                   />
                                 </ScatterChart>

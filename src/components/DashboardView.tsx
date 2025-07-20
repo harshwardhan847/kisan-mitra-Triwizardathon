@@ -15,6 +15,8 @@ import {
   CheckCircle,
   AlertTriangle,
   Sparkles,
+  Link,
+  X,
 } from "lucide-react";
 import { extractUrlsFromText } from "@/utils/ai_parsing";
 import Head from "next/head";
@@ -821,6 +823,33 @@ const DashboardView = ({ results }: { results: any }) => {
                                 )}
                             </div>
                           </div>
+                          {/* Warnings */}
+                          <div className="p-6 bg-slate-900/30 rounded-2xl border border-slate-700/30">
+                            <div className="flex items-center space-x-2 mb-4">
+                              <X className="w-5 h-5 text-red-400" />
+                              <span className="font-bold text-red-200">
+                                Warnings:
+                              </span>
+                            </div>
+                            <div className="space-y-3">
+                              {synthesized.details.disease.warnings &&
+                                synthesized.details.disease.warnings.map(
+                                  (step: string, tidx: number) => (
+                                    <div
+                                      key={tidx}
+                                      className="flex items-start space-x-3 p-3 bg-slate-800/30 rounded-xl hover:bg-slate-700/30 transition-colors duration-300"
+                                    >
+                                      <div className="w-6 h-6 bg-green-500/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 border border-red-400/30">
+                                        <span className="text-xs font-bold text-red-400">
+                                          {tidx + 1}
+                                        </span>
+                                      </div>
+                                      <p className="text-slate-200">{step}</p>
+                                    </div>
+                                  )
+                                )}
+                            </div>
+                          </div>
                         </div>
                       )}
                     </div>
@@ -859,9 +888,10 @@ const DashboardView = ({ results }: { results: any }) => {
                                   }
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  className="flex items-center space-x-2 mt-4 md:mt-0 px-4 py-2 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-400 hover:to-emerald-400 rounded-xl text-white font-medium transition-all duration-300 shadow-lg hover:shadow-green-500/25 relative z-10"
+                                  className="flex w-fit flex-nowrap items-center space-x-2 mt-4 md:mt-4 px-4 py-2 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-400 hover:to-emerald-400 rounded-xl text-white font-medium transition-all duration-300 shadow-lg hover:shadow-green-500/25 relative z-10"
                                 >
                                   <span>Cast Application</span>
+                                  <Link size={15} />
                                 </a>
                               </div>
                             )

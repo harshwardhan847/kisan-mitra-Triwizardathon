@@ -29,6 +29,7 @@ import {
   MessageCircle,
   ChevronsDown,
 } from "lucide-react";
+import { synthesizeToolResults } from "@/utils/handleGeminiToolCalls";
 
 interface SearchResult {
   uri: string;
@@ -164,16 +165,20 @@ const LiveAudio: React.FC = () => {
     setDiagnosePreview(image);
 
     try {
-      if ((window as any).__agentDiagnosisCallback) {
-        (window as any).__agentDiagnosisCallback(image);
-      } else {
-        const result = await diagnoseCropDisease(
-          image,
-          currentLanguage,
-          getPreviousChats()
-        );
-        setDashboardData((prev) => [...prev, result]);
-      }
+      const result = await diagnoseCropDisease(
+        image,
+        currentLanguage,
+        getPreviousChats()
+      );
+      console.log(result);
+      const structuredResult = { ...result, name: "diagnose_crop_disease" };
+      const systemizedResult = synthesizeToolResults(
+        [structuredResult],
+        [structuredResult],
+        currentLanguage
+      );
+      console.log(systemizedResult);
+      setDashboardData((prev) => [...prev, systemizedResult]);
     } catch {
       setDashboardError(
         "The enchantment failed to divine the plant's secrets. Please try again."

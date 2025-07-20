@@ -16,7 +16,7 @@ interface HandleGeminiToolCallsParams {
 }
 
 // --- Synthesis logic ---
-function synthesizeToolResults(
+export function synthesizeToolResults(
   toolResults: any[],
   toolCalls: any[],
   currentLanguage: string
@@ -56,8 +56,8 @@ function synthesizeToolResults(
   // Disease
   if (diseaseData) {
     details.disease = diseaseData;
-    summary += diseaseData?.diagnosis
-      ? `🦠 Disease diagnosis: ${diseaseData.diagnosis}. ${
+    summary += diseaseData?.cause
+      ? `🦠 Disease diagnosis: ${diseaseData.cause}. ${
           diseaseData.suggestion || ""
         }`
       : diseaseData?.error || "No disease info.";

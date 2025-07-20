@@ -131,8 +131,19 @@ const DashboardView = ({ results }: { results: any }) => {
           Activity: <Activity className="w-5 h-5" />,
           BarChart3: <BarChart3 className="w-5 h-5" />,
         };
-        // Per-result active tab
-        const activeTab = activeTabs[idx] ?? TAB_SUMMARY;
+        // Determine default tab: Stats > Charts > Summary
+        let defaultTab = TAB_SUMMARY;
+        if (synthesized.stats && synthesized.stats.length)
+          defaultTab = TAB_STATS;
+        else if (synthesized.charts && synthesized.charts.length)
+          defaultTab = TAB_CHARTS;
+        else if (synthesized.details && synthesized.details.disease)
+          defaultTab = TAB_DISEASE;
+        else if (synthesized.details && synthesized.details.schemes)
+          defaultTab = TAB_SCHEMES;
+        else if (synthesized.details && synthesized.details.comparison)
+          defaultTab = TAB_COMPARISON;
+        const activeTab = activeTabs[idx] ?? defaultTab;
         const setActiveTab = (tab: string) =>
           setActiveTabs((prev) => ({ ...prev, [idx]: tab }));
         return (

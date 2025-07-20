@@ -1,36 +1,71 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🌾 Project Kisan Mitra — AI Agent for Indian Farmers
 
-## Getting Started
+![Banner](https://lh3.google.com/u/0/d/1879t7jd9va_1goNjOsi4juVkI9Rg8ct3=w2880-h1720-iv1?auditContext=forDisplay)
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 👥 Team Details
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Team Name:** Project Kisan
+- **Team Lead:** Harsh
+- **Problem Statement:**  
+  > Providing farmers with expert help on demand, especially for crop disease diagnosis, market trends, and government schemes — all in native languages.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 💡 Brief About the Idea
 
-## Learn More
+Kisan Mitra is a multilingual, multimodal AI agent built with Google Vertex AI and Gemini. It helps farmers:
 
-To learn more about Next.js, take a look at the following resources:
+- Diagnose plant diseases from images or voice
+- Track mandi prices and get sell recommendations
+- Discover and apply for government schemes
+- Get regional weather, soil, and agri news updates
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+All responses are in the **farmer’s native language**, via voice or text.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 🔍 Opportunities & Differentiation
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 🚀 How Is It Different?
+- Most platforms only show raw data.  
+  ✅ We provide **actionable summaries with charts and voice**  
+  ✅ Multilingual voice-first interaction  
+  ✅ Context awareness between tools
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 🧠 Why It Solves the Problem
+- Unified view of agriculture decisions — disease, pricing, government aid — through a single, easy-to-use agent.
+
+### ⭐ Unique Selling Proposition
+- Powered by Google Gemini  
+- Live voice + image analysis + regional intelligence  
+- Seamless data-to-decision pipeline
+
+---
+
+## 🧰 Features Offered
+
+| Feature | Description |
+|--------|-------------|
+| 🧠 Voice Chat | Gemini-powered live chat in regional language |
+| 🌾 Disease Diagnosis | Image/audio based plant pathology tool |
+| 📈 Mandi Prices | Market data with insights and trends |
+| 🔄 Compare Markets | District/state comparison with graphs |
+| 📅 Sowing/Harvest Guide | Calendar aligned with weather + crop type |
+| 💰 Government Schemes | Summarized subsidies and links |
+| 🧪 Soil Quality (Planned) | pH and nutrient analysis |
+| 📰 Agri News | Region-specific alerts and subsidies |
+
+---
+
+## 🔁 Process Flow (Use Case)
+
+```text
+User Uploads Crop Image + Speaks in Native Language
+↓
+→ Diagnose Crop Disease (Image + Gemini)
+→ Get Market Prices (API + Chart)
+→ Show Government Schemes (RAG + Gemini Summary)
+↓
+Output → Markdown + Charts + Audio Response

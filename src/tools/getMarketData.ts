@@ -1,7 +1,7 @@
 // tools/getMarketData.ts
 import { Type, GoogleGenAI } from "@google/genai"; // Corrected import
-import { useLanguage } from "../app/context/LanguageContext";
-import type { PreviousChats } from "~/types/tool_types";
+import { useLanguage } from "@/context/LanguageContext";
+import type { PreviousChats } from "@/types/tool_types";
 
 // Helper to format a Date object into DD/MM/YYYY
 export function formatDateToDDMMYYYY(date: Date): string {
@@ -57,7 +57,7 @@ export async function getMarketData(
   const HISTORICAL_BASE_URL = process.env.NEXT_PUBLIC_HISTORICAL_MANDI_API_URL;
   const TODAY_BASE_URL = process.env.NEXT_PUBLIC_TODAY_MANDI_API_URL;
 
-  const geminiApiKey: string = process.env.NEXT_PUBLIC_GENERATIVE_API_KEY;
+  const geminiApiKey: string = process.env.NEXT_PUBLIC_GENERATIVE_API_KEY || "";
 
   console.log("Called: MarketDataTool");
 

@@ -26,17 +26,30 @@ import {
   ChevronDown,
 } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Home() {
   const [isScrolled, setIsScrolled] = useState(false);
+  // Generate random positions for magical particles only on the client
+  const [particlePositions, setParticlePositions] = useState<
+    { left: string; top: string }[]
+  >([]);
+
+  useEffect(() => {
+    // Only run on client
+    const positions = Array.from({ length: 20 }).map(() => ({
+      left: `${Math.random() * 100}%`,
+      top: `${Math.random() * 100}%`,
+    }));
+    setParticlePositions(positions);
+  }, []);
 
   // Handle scroll for header transparency
-  if (typeof window !== "undefined") {
-    window.addEventListener("scroll", () => {
-      setIsScrolled(window.scrollY > 50);
-    });
-  }
+  useEffect(() => {
+    const onScroll = () => setIsScrolled(window.scrollY > 50);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const features = [
     {
@@ -120,10 +133,11 @@ export default function Home() {
       </div>
 
       {/* Floating magical particles */}
-      {[...Array(20)].map((_, i) => (
+      {particlePositions.map((pos, i) => (
         <motion.div
           key={i}
           className="absolute w-1 h-1 bg-amber-400 rounded-full"
+          style={pos}
           animate={{
             x: [0, Math.cos(i * 0.5) * 100, 0],
             y: [0, Math.sin(i * 0.5) * 100, 0],
@@ -135,10 +149,6 @@ export default function Home() {
             repeat: Number.POSITIVE_INFINITY,
             delay: i * 0.2,
             ease: "easeInOut",
-          }}
-          style={{
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
           }}
         />
       ))}

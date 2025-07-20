@@ -27,6 +27,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { MagicalButton } from "@/components/magical-button";
 import { MagicalOrb } from "@/components/magical-orb";
 import { MagicalParticles } from "@/components/magical-particles";
+import { UserButton } from "@clerk/nextjs";
 
 interface SearchResult {
   uri: string;
@@ -329,8 +330,7 @@ const LiveAudio: React.FC = () => {
               </p>
             </div>
           </motion.div>
-
-          {/* Enhanced Controls */}
+          {/* Controls: Clear Chat, Language Selector, User Button */}
           <div className="flex items-center space-x-4">
             <MagicalButton
               onClick={handleClearHistory}
@@ -341,30 +341,44 @@ const LiveAudio: React.FC = () => {
             >
               <MessageCircle className="w-5 h-5 text-white" />
             </MagicalButton>
-
             <div className="flex items-center space-x-3">
               <Languages className="w-5 h-5 text-amber-400" />
-              <motion.select
-                whileFocus={{ scale: 1.02 }}
-                value={currentLanguage}
-                onChange={(e) => {
-                  setCurrentLanguage(e.target.value);
-                  stopRecording();
-                  setIsControlPanel(true);
-                }}
-                className="bg-slate-800/50 backdrop-blur-xl border border-amber-500/30 rounded-xl px-4 py-2 text-amber-100 focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-amber-400/50 transition-all duration-200 cursor-pointer"
-              >
-                {LANGUAGE_OPTIONS.map((opt) => (
-                  <option
-                    key={opt.code}
-                    value={opt.code}
-                    className="bg-slate-800"
-                  >
-                    {opt.label}
-                  </option>
-                ))}
-              </motion.select>
+              <div className="relative">
+                <motion.select
+                  whileFocus={{ scale: 1.04 }}
+                  value={currentLanguage}
+                  onChange={(e) => {
+                    setCurrentLanguage(e.target.value);
+                    stopRecording();
+                    setIsControlPanel(true);
+                  }}
+                  className="appearance-none bg-slate-900/80 border border-amber-400/40 rounded-xl px-5 py-2 pr-10 text-amber-100 font-semibold shadow-lg focus:outline-none focus:ring-2 focus:ring-amber-400/60 focus:border-amber-400/60 transition-all duration-200 cursor-pointer hover:border-amber-400/80"
+                  style={{ minWidth: 120 }}
+                >
+                  {LANGUAGE_OPTIONS.map((opt) => (
+                    <option
+                      key={opt.code}
+                      value={opt.code}
+                      className="bg-slate-900 text-amber-100"
+                    >
+                      {opt.label}
+                    </option>
+                  ))}
+                </motion.select>
+                <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-amber-400">
+                  <svg width="18" height="18" fill="none" viewBox="0 0 24 24">
+                    <path
+                      d="M6 9l6 6 6-6"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </span>
+              </div>
             </div>
+            <UserButton />
           </div>
         </div>
       </motion.header>

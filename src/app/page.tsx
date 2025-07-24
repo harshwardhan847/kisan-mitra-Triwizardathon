@@ -26,7 +26,7 @@ import {
   ChevronDown,
 } from "lucide-react";
 import Link from "next/link";
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 
 export default function Home() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -34,6 +34,18 @@ export default function Home() {
   const [particlePositions, setParticlePositions] = useState<
     { left: string; top: string }[]
   >([]);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    audioRef.current = new Audio("/assets/sfx/ambient1.mp3");
+    // Optionally auto-play or preload:
+
+    return () => {
+      // Cleanup if needed
+      audioRef.current?.pause();
+      audioRef.current = null;
+    };
+  }, []);
 
   useEffect(() => {
     // Only run on client
@@ -110,7 +122,13 @@ export default function Home() {
   ];
 
   return (
-    <div className="min-h-screen relative overflow-hidden">
+    <div
+      onClick={(e) => {
+        e.preventDefault();
+        audioRef.current?.play();
+      }}
+      className="min-h-screen relative overflow-hidden"
+    >
       {/* Enhanced Magical Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-purple-900 to-indigo-900">
         {/* Animated gradient overlay */}
